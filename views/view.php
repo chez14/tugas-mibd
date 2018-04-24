@@ -1,8 +1,8 @@
 <?php
 class View {
-    protected function include($viewname, $arrays) {
+    protected function include($viewname, $arrays=[]) {
         extract($arrays, EXTR_OVERWRITE);
-        include($viewname);
+        include(__DIR__ . "/" . $viewname);
     }
 
     public static function render($viewname, $arrays = []) {

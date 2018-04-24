@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i|Roboto:300,300i,400,400i,500,500i,700,700i');
+@import url('layout.css');
+
+:root {
+    --font-normal: #212121;
+    --font-white: #FAFAFA;
+    --color-dark: #263238;
+    --color-primary: #0D47A1;
+    --color-warning: #FF9800;
+    --color-danger: #B71C1C;
+}
+
+body {
+    font-family: 'Open Sans', 'Roboto', sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+.hero {
+    padding: 30px 0px;
+}
+
+.hero.is-dark {
+    background-color: var(--color-dark);
+    color: var(--font-white)
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+}
+
+/** Navbar **/
+nav.navbar {
+    display: block;
+    background-color: var(--color-dark);
+}
+
+nav.navbar .container {
+    overflow: auto;
+}
+
+nav.navbar .navbar-item {
+    display: block;
+    float: left;
+    text-decoration: none;
+    color: var(--font-white);
+    padding: 13px 10px;
+    opacity: 0.8;
+}
+
+nav.navbar .navbar-item.active {
+    background-color:var(--font-white);
+    color: var(--color-dark);
+    opacity: 1;
+}
+
+nav.navbar .navbar-item:hover {
+    background-color: rgba(255,255,255, 0.05);
+    opacity: 1;
+}
+
+nav.navbar .navbar-separator {
+    width: 1px;
+    height: 39px;
+    background-color: #fff;
+    opacity: 0.1;
+    padding: 0px;
+    margin: 5px 0px;
+}
+
+nav.navbar .navbar-brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+    opacity: 1;
+    padding: 9px 10px;
+}

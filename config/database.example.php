@@ -8,9 +8,9 @@ class DB {
     static
         $db = [
             "host" => "localhost",
-            "username" => "tugas-kuliah",
+            "username" => "tugas_kuliah",
             "password" => "",
-            "dbname"   => "tugas-mibd",
+            "dbname"   => "tugas_mibd",
         ];
     
 }
