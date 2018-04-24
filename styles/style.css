@@ -6,15 +6,20 @@
     --font-white: #FAFAFA;
     --color-dark: #263238;
     --color-primary: #0D47A1;
+    --color-success: #2E7D32;
     --color-warning: #FF9800;
     --color-danger: #B71C1C;
-    --color-blue-200: #C5CAE9;
+    --color-blue-200: #E0E0E0;
+
+    --border-color: rgba(38,50,56, 0.4);
+    
 }
 
 body {
     font-family: 'Open Sans', 'Roboto', sans-serif;
     margin: 0px;
     padding: 0px;
+    color: var(--font-normal);
 }
 
 .hero {
@@ -81,4 +86,50 @@ nav.navbar .navbar-brand {
     font-size: 1.4rem;
     opacity: 1;
     padding: 9px 10px;
+}
+
+/** Utility **/
+.mt-1 {
+    margin-top: 1rem;
+}
+.mt-2 {
+    margin-top: 2rem;
+}
+.mt-3 {
+    margin-top: 3rem;
+}
+.mt-4 {
+    margin-top: 4rem;
+}
+.mt-5 {
+    margin-top: 5rem;
+}
+
+.align-left {
+    text-align: left;
+}
+.align-right {
+    text-align: right;
+}
+
+/** box panel **/
+.panel {
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    box-shadow: 2px 2px 5px var(--border-color);
+    padding: 15px;
+    background-color: #fff;
+}
+
+/** tiket **/
+.ticket {
+    padding: 8px;    
+    color: var(--font-white);
+}
+.ticket.ticket-open {
+    background-color: var(--color-success);
+}
+
+.ticket.ticket-close {
+    background-color: var(--color-dark);
 }
