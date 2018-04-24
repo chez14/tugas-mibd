@@ -22,7 +22,15 @@ $kasus = [
         "created_at" => strtotime("24 april 2018 14:44")
     ],
     [
-        "title" => "Refund #1",
+        "title" => "Retur barang",
+        "id" => 2,
+        "client" => "john-doe",
+        "assigned" => "mark",
+        "status" => "close",
+        "created_at" => strtotime("24 april 2018 14:44")
+    ],
+    [
+        "title" => "Claim Garansi",
         "id" => 2,
         "client" => "john-doe",
         "assigned" => "mark",
