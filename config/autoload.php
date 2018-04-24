@@ -5,7 +5,7 @@ if(!is_file("config/database.php"))
     ]));
 
 require("config/database.php");
-require("views/view.php");
+require("config/view.php");
 
 class Config {
     /**
