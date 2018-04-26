@@ -9,29 +9,12 @@ class Pesan extends Base_Model {
         return Helper\DB::fetch_all($statement->get_result());
     }
 
-    public static function add_pesan_karyawan($pesan, $kasus, $karyawan_id=null) {
-        $statement = parent::get_db()->prepare("INSERT INTO pesan (content, created_on, kasus_id) values(?,?,?)");
+    public static function add_pesan($pesan, $kasus, $user_id=null) {
+        $statement = parent::get_db()->prepare("INSERT INTO pesan (konten, created_at, kasus_id, user_id) values(?,?,?)");
         $created = date("Y-m-d H:i:s");
-        $statement->bind_param("ssi", $pesan, $created, $kasus);
-        $statement->execute();
-        $pesan_id = $statement->insert_id;
-        $statement = parent::get_db()->prepare("INSERT INTO pesan_karyawan (id, karyawan_id) values(?,?)");
-        $statement->bind_param("ss", $pesan_id, $karyawan_id);
+        $statement->bind_param("ssi", $pesan, $created, $kasus, $user_id);
         $statement->execute();
         
-        return $pesan_id;
-    }
-
-    public static function add_pesan_klien($pesan, $kasus, $klien_id=null) {
-        $statement = parent::get_db()->prepare("INSERT INTO pesan (content, created_on, kasus_id) values(?,?,?)");
-        $created = date("Y-m-d H:i:s");
-        $statement->bind_param("ssi", $pesan, $created, $kasus);
-        $statement->execute();
-        $pesan_id = $statement->insert_id;
-        $statement = parent::get_db()->prepare("INSERT INTO pesan_klien (id, klien_id) values(?,?)");
-        $statement->bind_param("ss", $pesan_id, $klien_id);
-        $statement->execute();
-        
-        return $pesan_id;
+        return $statement->insert_id;
     }
 }

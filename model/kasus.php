@@ -10,8 +10,8 @@ class Kasus extends Base_Model {
         return \Helper\DB::fetch_all($statement->get_result())[0];
     }
 
-    public static function get_kasus_by_user($user_id, $page_start=0, $length=10) {
-        $statement = parent::get_db()->prepare("SELECT * from kasus where client_id=? limit ?, ?");
+    public static function get_kasus_by_user($klien_id, $page_start=0, $length=10) {
+        $statement = parent::get_db()->prepare("SELECT * from kasus where klien_id=? limit ?, ?");
         $statement->bind_param("iii", $user_id, $page_start, $length);
         $statement->execute();
         return \Helper\DB::fetch_all($statement->get_result());
@@ -39,9 +39,9 @@ class Kasus extends Base_Model {
         return $statement->insert_id;
     }
 
-    public static function create_kasus($title, $client_id, $category_id) {
-        $statement = parent::get_db()->prepare("INSERT INTO kasus (nama, kategori_id, client_id) values (?, ?, ?)");
-        $statement->bind_param("sii", $title, $category_id, $client_id);
+    public static function create_kasus($title, $klien_id, $category_id) {
+        $statement = parent::get_db()->prepare("INSERT INTO kasus (nama, kategori_id, klien_id) values (?, ?, ?)");
+        $statement->bind_param("sii", $title, $category_id, $klien_id);
         $statement->execute();
         return $statement->insert_id;
     }
