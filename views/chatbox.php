@@ -22,6 +22,8 @@
             overflow: auto;
             background-color: #42424275;
             padding-left: 0px;
+            height: calc(100vh - 49px);
+            padding-bottom: 109px;       
         }
 
         .pelayanan p {
@@ -131,6 +133,22 @@
                     <div class="item">
                         <content>
                             Testing
+                            <time>18.44</time>
+                        </content>
+                    </div>
+                </div>
+                <div class="msg dia">
+                    <div class="item">
+                        <content>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius eleifend lacus. Quisque consequat vehicula sem in tincidunt. In ut mauris mollis, porta tortor consectetur, dignissim risus. Suspendisse lacinia dui quis risus fringilla, quis porta purus aliquam. Proin at nunc a nisl venenatis pulvinar vitae a mauris. Nam ut euismod nisi. Vivamus non lectus eu leo venenatis malesuada ac quis magna. Proin eu feugiat dui. Curabitur interdum consectetur ornare. Morbi in eleifend odio. Nulla vitae enim non arcu pulvinar volutpat in id lectus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia hendrerit neque id placerat.
+                            <time>18.44</time>
+                        </content>
+                    </div>
+                </div>
+                <div class="msg dia">
+                    <div class="item">
+                        <content>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius eleifend lacus. Quisque consequat vehicula sem in tincidunt. In ut mauris mollis, porta tortor consectetur, dignissim risus. Suspendisse lacinia dui quis risus fringilla, quis porta purus aliquam. Proin at nunc a nisl venenatis pulvinar vitae a mauris. Nam ut euismod nisi. Vivamus non lectus eu leo venenatis malesuada ac quis magna. Proin eu feugiat dui. Curabitur interdum consectetur ornare. Morbi in eleifend odio. Nulla vitae enim non arcu pulvinar volutpat in id lectus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia hendrerit neque id placerat.
                             <time>18.44</time>
                         </content>
                     </div>
