@@ -13,7 +13,7 @@ if(isset($_POST['username']))
 			$_POST['name'],
 			$_POST['username'], 
 			md5($_POST['password']),
-			'client'
+			($role='client')
 		);
 		header("Location: index.php");
 		exit();
