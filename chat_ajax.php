@@ -1,11 +1,15 @@
 <?php
 require('config/autoload.php');
 Helper\Ajaxify::boot();
+
 $user = Model\User::fetch_user();
+
 if($user == null) {
     Helper\Ajaxify::error("User not authenticated.",403);
 }
+
 $pesan = [];
+
 try {
     if(isset($_POST['konten'])) {
         $inserted_id = Model\Pesan::add_pesan($_POST['konten'], $_POST['kasus'], $user['id']);

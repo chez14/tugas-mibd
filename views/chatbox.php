@@ -106,25 +106,71 @@
     <div class="grid">
         <div class="row" style="margin: 0">
             <div class="col-xs-3 panel-info">
-                <h2>Klaim Garansi</h2>
-                <p>#<?= $kasus['id'] ?>- <?= $kasus['penulis'] ?></p>
+                <h2><?= $kasus['nama'] ?></h2>
+                <p>#<?= $kasus['id'] ?>- <?= $kasus['karyawan_name'] ?></p>
                 <section name="info-lawan" class="mt-5">
+                    <?php if($user['role'] == 'client'): ?>
+                    <?php if($kasus['karyawan_id']): ?>
                     <p>Anda sedang dilayani oleh</p>
                     <div class="panel pelayanan">
                         <div class="row">
-                            <div class="col-xs-2">
-                                <img class="profile-pict" src="<?= Helper\Gravatar::get_gravatar("christianto.g.14@gmail.com") ?>" alt="">
+                            <div class="col-xs-3 col-xl-2">
+                                <img class="profile-pict" src="<?= Helper\Gravatar::get_gravatar($kasus['karyawan_email']) ?>" alt="">
                             </div>
-                            <div class="col-xs-10">
-                                <p class="nama">Mark</p>
-                                <p>#00201</p>
+                            <div class="col-xs-9 col-xl-10">
+                                <p class="nama"><?=$kasus['karyawan_nama']?></p>
+                                <p>#<?=$kasus['karyawan_id']?></p>
                             </div>
                         </div>
                     </div>
+                    <?php else: ?>
+                    <p>Harap tunggu sistem kami sedang menunggu respon dari tim helpdesk.</p>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <p>Anda sedang melayani</p>
+                    <div class="panel pelayanan">
+                        <div class="row">
+                            <div class="col-xs-3 col-xl-2">
+                                <img class="profile-pict" src="<?= Helper\Gravatar::get_gravatar($kasus['klien_email']) ?>" alt="">
+                            </div>
+                            <div class="col-xs-9 col-xl-10">
+                                <p class="nama"><?=$kasus['klien_nama'] ?></p>
+                                <p>#<?= $kasus['klien_id'] ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Karyawan yang melayani:</p>
+                    <?php if($kasus['karyawan_id']): ?>
+                    <div class="panel pelayanan">
+                        <div class="row">
+                            <div class="col-xs-3 col-xl-2">
+                                <img class="profile-pict" src="<?= Helper\Gravatar::get_gravatar($kasus['karyawan_email']) ?>" alt="">
+                            </div>
+                            <div class="col-xs-9 col-xl-10">
+                                <p class="nama"><?=$kasus['karyawan_nama']?></p>
+                                <p>#<?=$kasus['karyawan_id']?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php else: ?>
+                    <p><b>PERHATIAN: Belum ada yang di assign ke kasus ini!!</b></p>
+                    <?php endif; ?>
+                <?php endif; ?>
+                    
                 </section>
                 <section name="call-to-action" class="mt-5">
-                    <button class="btn btn-warning btn-block">Tutup Tiket</button>
-                    <p class="helper">Anda selalu dapat membuka kembali tiket ini.</p>
+                <?php if($kasus['closed_at']): ?>
+                    <button class="btn btn-dark btn-block" disabled>Tiket sudah ditutup</button>                    
+                <?php else:
+                        if($user['role'] == 'client' || $user['role'] == 'pemilik'):
+                    ?>
+                        <button class="btn btn-warning btn-block" data-trigger="tutup">Tutup Tiket</button>
+                    <?php elseif($user['role'] == 'karyawan'): ?>
+                        <button class="btn btn-primary btn-block" data-trigger="self-assign">Layani Tiket</button>
+                    <?php elseif($user['role'] == 'pemilik'): ?>
+                        <button class="btn btn-primary btn-block" data-trigger="assign">Assign Karyawan</button>
+                    <?php endif; ?>
+                <?php endif; ?>                
                 </section>
             </div>
             <div class="col-xs-9 panel-chat">
@@ -136,10 +182,10 @@
                 <section class="boxter">
                     <form action="chatbox.php" method="get" id="chatize" class="row middle-xs">
                         <div class="col-xs-11">
-                            <textarea name="pesan" cols="30" rows="10" placeholder="Enter your message here"></textarea>
+                            <textarea name="pesan" cols="30" rows="10" placeholder="Enter your message here"<?= ($kasus['closed_at'] || $user['role']=='pemilik')?" disabled":"" ?>></textarea>
                         </div>
                         <div class="col-xs-1">
-                            <button type="submit" class="btn btn-primary">&gt;</a>
+                            <button type="submit" class="btn btn-primary" <?= ($kasus['closed_at'] || $user['role']=='pemilik')?" disabled":"" ?>>&gt;</a>
                         </div>
                     </form>
                 </section>
@@ -151,7 +197,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <script>
-        var kasus_id = <?= json_encode($_GET['id']?:0); ?>
+        var kasus_id = <?= json_encode($_GET['id']?:0); ?>;
+        var balik = <?= json_encode($user['role'] == 'client')?>;
     </script>
     <script>
         $(document).ready(()=>{
@@ -187,7 +234,7 @@
                     }}).then((e)=>{
                         let data = e.data.map((chats)=>{
                             chatbox.lastTime = Math.max(chatbox.lastTime, chats.created_at);
-                            return chatbox.construct_new(chats.konten, !chats.is_client, chats.created_at);
+                            return chatbox.construct_new(chats.konten, (balik)?!chats.is_client:chats.is_client, chats.created_at);
                         })
                         chatbox.appendAndScroll(data);
                     })
@@ -213,6 +260,43 @@
                 chatbox.send_message();
             });
             setInterval(chatbox.refetch, 1000);
+
+
+            //confirmation box
+            $("[data-trigger='tutup']").click((e)=>{
+                e.preventDefault();
+                if(!confirm("Anda yakin menutup kasus?\nSetelah kasus ditutup, anda tidak dapat mengubah status kasus ini."))
+                    return;
+                $(this).text("Memproses...");
+                $(this).attr("disabled", "disabled");
+                axios.post("kasus_ajax.php", {case:kasus_id, action:'close'}).then((x)=>{
+                    window.location.reload();
+                }).catch(alert);
+            });
+            $("[data-trigger='self-assign']").click((e)=>{
+                e.preventDefault();
+                $(this).text("Memproses...");
+                $(this).attr("disabled", "disabled");
+                axios.post("kasus_ajax.php", {case:kasus_id, action:'self-assign'}).then((x)=>{
+                    window.location.reload();
+                }).catch(alert);
+            });
+            $("[data-trigger='self-assign']").click((e)=>{
+                let username = prompt("Massukan email/username dari karyawan anda.");
+                if(!username) {
+                    alert("Assign dibatalkan.");
+                    return;
+                }
+                let oldval = $(this).text();
+                $(this).text("Memproses...");
+                $(this).attr("disabled", "disabled");
+                axios.post("kasus_ajax.php", {case:kasus_id, action:'assign', karyawan:username}).then((x)=>{
+                    window.location.reload();
+                }).catch((err)=>{
+                    $(this).text(oldval);
+                    $(this).attr("disabled", null);
+                });
+            })
         });
     </script>
 </body>

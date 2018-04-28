@@ -10,6 +10,13 @@ class User extends Base_Model {
         return \Helper\DB::fetch_all($statement->get_result())[0];
     }
 
+    public static function get_user($id) {
+        $statement = parent::get_db()->prepare("SELECT * FROM user WHERE email=? or username=?");
+        $statement->bind_param("ss", $id,$id);
+        $statement->execute();
+        return \Helper\DB::fetch_all($statement->get_result());
+    }
+
     public static function fetch_user() {
         $user = null;
         
