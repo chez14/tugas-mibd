@@ -128,39 +128,9 @@
                 </section>
             </div>
             <div class="col-xs-9 panel-chat">
+                <section id="chat-lap">
 
-                <div class="msg gue">
-                    <div class="item">
-                        <content>
-                            Testing
-                            <time>18.44</time>
-                        </content>
-                    </div>
-                </div>
-                <div class="msg dia">
-                    <div class="item">
-                        <content>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius eleifend lacus. Quisque consequat vehicula sem in tincidunt. In ut mauris mollis, porta tortor consectetur, dignissim risus. Suspendisse lacinia dui quis risus fringilla, quis porta purus aliquam. Proin at nunc a nisl venenatis pulvinar vitae a mauris. Nam ut euismod nisi. Vivamus non lectus eu leo venenatis malesuada ac quis magna. Proin eu feugiat dui. Curabitur interdum consectetur ornare. Morbi in eleifend odio. Nulla vitae enim non arcu pulvinar volutpat in id lectus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia hendrerit neque id placerat.
-                            <time>18.44</time>
-                        </content>
-                    </div>
-                </div>
-                <div class="msg dia">
-                    <div class="item">
-                        <content>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius eleifend lacus. Quisque consequat vehicula sem in tincidunt. In ut mauris mollis, porta tortor consectetur, dignissim risus. Suspendisse lacinia dui quis risus fringilla, quis porta purus aliquam. Proin at nunc a nisl venenatis pulvinar vitae a mauris. Nam ut euismod nisi. Vivamus non lectus eu leo venenatis malesuada ac quis magna. Proin eu feugiat dui. Curabitur interdum consectetur ornare. Morbi in eleifend odio. Nulla vitae enim non arcu pulvinar volutpat in id lectus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia hendrerit neque id placerat.
-                            <time>18.44</time>
-                        </content>
-                    </div>
-                </div>
-                <div class="msg dia">
-                    <div class="item">
-                        <content>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius eleifend lacus. Quisque consequat vehicula sem in tincidunt. In ut mauris mollis, porta tortor consectetur, dignissim risus. Suspendisse lacinia dui quis risus fringilla, quis porta purus aliquam. Proin at nunc a nisl venenatis pulvinar vitae a mauris. Nam ut euismod nisi. Vivamus non lectus eu leo venenatis malesuada ac quis magna. Proin eu feugiat dui. Curabitur interdum consectetur ornare. Morbi in eleifend odio. Nulla vitae enim non arcu pulvinar volutpat in id lectus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia hendrerit neque id placerat.
-                            <time>18.44</time>
-                        </content>
-                    </div>
-                </div>
+                </section>
 
                 <!-- Chatbox! -->
                 <section class="boxter">
@@ -176,5 +146,56 @@
             </div>
         </div>
     </div>
+
+    <?= $this->include('_part/footer.php'); ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script>
+        var kasus_id = <?= json_encode($_GET['id']?:0); ?>
+    </script>
+    <script>
+        $(document).ready(()=>{
+            var chatbox = {
+                lastTime: 0,
+                construct_new: function(msg, placeLeft, time) {
+                    var container = $("<div/>", {class:"msg"});
+                    var box = $("<div/>", {class:"item"});
+                    var content = $("<content/>", {text:msg});
+                    var time = $("<time/>", {text:moment(time).format('hh:mm')});
+                    content.append(time).appendTo(box);
+                    box.appendTo(container);
+                    if(!placeLeft)
+                        container.addClass("gue");
+                    else
+                        container.addClass("dia");
+                    return container;
+                },
+                appendAndScroll: function(chat) {
+                    let lapangan = $("#chat-lap");
+                    if(chat.constructor !== Array) {
+                        chat = [chat];
+                    }
+                    chat.map((c)=>{
+                        lapangan.append(c);
+                        $(c).get(0).scrollIntoView(true);
+                    })
+                },
+                refetch: function() {
+                    axios.get("chat_ajax.php",{params: {
+                        id: kasus_id,
+                        last: chatbox.lastTime
+                    }}).then((e)=>{
+                        let data = e.data.map((chats)=>{
+                            chatbox.lastTime = Math.max(chatbox.lastTime, chats.created_at);
+                            return chatbox.construct_new(chats.konten, !chats.is_client, chats.created_at);
+                        })
+                        chatbox.appendAndScroll(data);
+                    })
+                }
+            }
+
+            setInterval(chatbox.refetch, 1000);
+        });
+    </script>
 </body>
 </html>

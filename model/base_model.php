@@ -10,5 +10,4 @@ abstract class Base_Model {
         }
         return self::$db;
     }
-    
 }
