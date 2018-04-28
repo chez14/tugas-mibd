@@ -11,22 +11,28 @@ class Kasus extends Base_Model {
     }
 
     public static function get_kasus_by_user($klien_id, $page_start=0, $length=10) {
-        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap where klien_id=? limit ?, ?");
+        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap where klien_id=? ORDER BY closed_at ASC limit ?, ?");
         $statement->bind_param("iii", $user_id, $page_start, $length);
         $statement->execute();
         return \Helper\DB::fetch_all($statement->get_result());
     }
 
     public static function get_kasus_by_karyawan($karyawan_id, $page_start=0, $length=10) {
-        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap where karyawan_id=? limit ?, ?");
+        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap where karyawan_id=?  ORDER BY closed_at ASC limit ?, ?");
         $statement->bind_param("iii", $user_id, $page_start, $length);
         $statement->execute();
         return \Helper\DB::fetch_all($statement->get_result());
     }
 
     public static function get_all_kasus($page_start=0, $length=10) {
-        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap limit ?, ?");
+        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap  ORDER BY closed_at ASC limit ?, ?");
         $statement->bind_param("ii", $page_start, $length);
+        $statement->execute();
+        return \Helper\DB::fetch_all($statement->get_result());
+    }
+
+    public static function count_open_kasus() {
+        $statement = parent::get_db()->prepare("SELECT count(id) as total from kasus_lengkap  WHERE closed_at is null");
         $statement->execute();
         return \Helper\DB::fetch_all($statement->get_result());
     }

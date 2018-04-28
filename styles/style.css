@@ -472,3 +472,7 @@ nav.navbar .navbar-brand {
   input[type="button"].btn-block {
     width: 100%;
   }
+
+  a.btn {
+    text-decoration: none;
+  }
