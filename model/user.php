@@ -36,4 +36,31 @@ class User extends Base_Model {
         setcookie('user_id', "", time() + (24*(-7)), "/");
         session_destroy();
     }
+
+
+    public static function delete($user_id) {
+        // Will perform hard deletations
+        $statement = Config::get_db()->prepare("DELETE FROM `pesan` WHERE `user_id`=?;");
+        $statement->bind_param("i", $user_id);
+        $statement->execute();
+
+        $statement = Config::get_db()->prepare("SELECT * FROM `klien` WHERE `user_id`=?;");
+        $statement->bind_param("i", $user_id);
+        $statement->execute();
+        $klien_id = $statement->get_result()->fetch_assoc()['id'];
+
+        $statement = Config::get_db()->prepare("DELETE FROM `kasus` WHERE `klien_id`=?;");
+        $statement->bind_param("i", $klien_id);
+        $statement->execute();
+
+        $statement = Config::get_db()->prepare("DELETE FROM `klien` WHERE `user_id`=?;");
+        $statement->bind_param("i", $user_id);
+        $statement->execute();
+
+        $statement = Config::get_db()->prepare("DELETE FROM `user` WHERE `id`=?;");
+        $statement->bind_param("i", $user_id);
+        $statement->execute();
+
+        // all references deleted successfully.
+    }
 }

@@ -8,10 +8,8 @@ $allow_tambah = false;
 $laporan = null;
 try {
     if(isset($_GET['delete'])) {
-        $statement = Config::get_db()->prepare("DELETE FROM `user` WHERE `id`=?;");
-        $statement->bind_param("i", $_GET['delete']);
-        $statement->execute();
-        $laporan = "Successfully delete " . $_GET['delete'] . ".";
+        Model\User::delete($_GET['delete']);
+        $laporan = "Successfully deleted " . $_GET['delete'] . ".";
     }
 } catch(\Exception $e) {
     $laporan .= "Failed to delete " . $_GET['delete'] . ", with error: " . $e->getMessage();
