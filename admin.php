@@ -20,7 +20,7 @@ $karyawan_open = Config::get_db()
     ->fetch_assoc()['total'];
 
 $klien = Config::get_db()
-        ->query("SELECT count(klien.id) as total from klien")
+        ->query("SELECT count(user.id) as total from user where `role` = 'client'")
         ->fetch_assoc()['total'];
 
 View::render("admin.php", [

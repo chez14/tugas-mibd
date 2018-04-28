@@ -29,13 +29,13 @@
             <div class="col-xs-3">
                 <div class="panel">
                     <h3>Karyawan (<?= $karyawan_open ?> free dari <?= $karyawan_total ?> orang)</h3>
-                    <a class="btn btn-dark" href="admin.php?tab=karyawan">Atur Karyawan</a>
+                    <a class="btn btn-dark" href="admin_user.php?tipe=karyawan">Atur Karyawan</a>
                 </div>
             </div>
             <div class="col-xs-3">
                 <div class="panel">
                     <h3>Klien (<?= $klien_total ?> orang)</h3>
-                    <a class="btn btn-dark" href="admin.php?tab=karyawan">Atur Klien</a>
+                    <a class="btn btn-dark" href="admin_user.php?tipe=klien">Atur Klien</a>
                 </div>
             </div>
             <div class="col-xs-3">

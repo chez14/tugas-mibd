@@ -9,10 +9,10 @@ require("config/database.php");
 require("config/view.php");
 
 class Config {
-    /**
-     * DO NOT EDIT THIS REGION
-     */
+    protected static $db = null;
     static function get_db() {
+        if(self::$db)
+            return self::$db;
         $d = new mysqli(
             Config\DB::$db['host'],
             Config\DB::$db['username'],
@@ -23,6 +23,7 @@ class Config {
         if($d->connect_error) {
             die(View::render("internal_error.html", ["err"=>$d->connect_error]));
         }
+        self::$db = $d;
         return $d;
     }
 
