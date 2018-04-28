@@ -129,18 +129,20 @@
             </div>
             <div class="col-xs-9 panel-chat">
                 <section id="chat-lap">
-
+                    <!-- nothing to do here -->
                 </section>
 
                 <!-- Chatbox! -->
                 <section class="boxter">
                     <div class="row middle-xs">
-                        <div class="col-xs-11">
-                            <textarea name="" id="" cols="30" rows="10" placeholder="Enter your message here"></textarea>
-                        </div>
-                        <div class="col-xs-1">
-                            <a class="btn btn-primary">&gt;</a>
-                        </div>
+                        <form action="chatbox.php" method="get" id="chatize">
+                            <div class="col-xs-11">
+                                <textarea name="" id="" cols="30" rows="10" placeholder="Enter your message here"></textarea>
+                            </div>
+                            <div class="col-xs-1">
+                                <button type="submit" class="btn btn-primary">&gt;</a>
+                            </div>
+                        </form>
                     </div>
                 </section>
             </div>
