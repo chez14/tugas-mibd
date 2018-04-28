@@ -27,7 +27,7 @@ try {
 
         $k_id = Model\User::get_user($_POST['karyawan']);
 
-        if(!$k_id)
+        if(!$k_id || $k_id[0]['role'] != 'karyawan')
             throw new Exception("the specified karyawan username/email are invalid!");    
 
         \Model\Kasus::assign_kasus($_POST['case'], $k_id[0]['id']);

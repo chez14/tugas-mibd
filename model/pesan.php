@@ -2,7 +2,7 @@
 namespace Model;
 class Pesan extends Base_Model {
     public static function get_pesan($case_id, $from = "2000-01-01") {
-        $sql =  "SELECT * " . 
+        $sql =  "SELECT * ";
         $sql .=     "FROM pesan_lengkap ";
         $sql .=     "where ";
         $sql .=         "kasus_id = ? and created_at > ?";

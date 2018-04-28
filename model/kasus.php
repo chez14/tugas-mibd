@@ -34,7 +34,7 @@ class Kasus extends Base_Model {
 
     public static function assign_kasus($kasus_id, $karyawan_id) {
         $statement = parent::get_db()->prepare("UPDATE kasus SET karyawan_id = ? WHERE id = ?");
-        $statement->bind_param("ii", $kasus_id, $karyawan_id);
+        $statement->bind_param("ii", $karyawan_id, $kasus_id);
         $statement->execute();
         return $statement->insert_id;
     }

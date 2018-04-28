@@ -107,7 +107,7 @@
         <div class="row" style="margin: 0">
             <div class="col-xs-3 panel-info">
                 <h2><?= $kasus['nama'] ?></h2>
-                <p>#<?= $kasus['id'] ?>- <?= $kasus['karyawan_name'] ?></p>
+                <p>#<?= $kasus['id'] ?> - <?= $kasus['karyawan_nama']?:"<i>belum ada karyawan terassign</i>" ?></p>
                 <section name="info-lawan" class="mt-5">
                     <?php if($user['role'] == 'client'): ?>
                     <?php if($kasus['karyawan_id']): ?>
@@ -167,7 +167,8 @@
                         <button class="btn btn-warning btn-block" data-trigger="tutup">Tutup Tiket</button>
                     <?php elseif($user['role'] == 'karyawan'): ?>
                         <button class="btn btn-primary btn-block" data-trigger="self-assign">Layani Tiket</button>
-                    <?php elseif($user['role'] == 'pemilik'): ?>
+                    <?php endif; ?>
+                    <?php if($user['role'] == 'pemilik'): ?>
                         <button class="btn btn-primary btn-block" data-trigger="assign">Assign Karyawan</button>
                     <?php endif; ?>
                 <?php endif; ?>                
@@ -281,7 +282,7 @@
                     window.location.reload();
                 }).catch(alert);
             });
-            $("[data-trigger='self-assign']").click((e)=>{
+            $("[data-trigger='assign']").click((e)=>{
                 let username = prompt("Massukan email/username dari karyawan anda.");
                 if(!username) {
                     alert("Assign dibatalkan.");
@@ -295,6 +296,7 @@
                 }).catch((err)=>{
                     $(this).text(oldval);
                     $(this).attr("disabled", null);
+                    alert("Error: " + err.response.data?err.response.data.error:err.statusText);
                 });
             })
         });
