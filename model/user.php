@@ -31,4 +31,9 @@ class User extends Base_Model {
 
         return $user;
     }
+
+    public static function logout() {
+        setcookie('user_id', "", time() + (24*(-7)), "/");
+        session_destroy();
+    }
 }

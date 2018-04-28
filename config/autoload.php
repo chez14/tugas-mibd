@@ -3,6 +3,7 @@ if(!is_file("config/database.php"))
     die(View::render("internal_error.html", [
         "err"=>"Your database is not correctly configured. Please check!"
     ]));
+session_start();
 
 require("config/database.php");
 require("config/view.php");
