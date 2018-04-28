@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-xs">
                     <h3>Register</h3>
-                    <form action="index.php">
+                    <form action="customer_register.php" method="post">
                         <div class="form-group">
                             <label for="">Username</label>
                             <input type="text" name="username" placeholder="john">
@@ -30,9 +30,12 @@
                             <label for="">Nama Lengkap</label>
                             <input type="text" name="name" placeholder="John doe">
                         </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" name="email" placeholder="John doe">
+                        </div>
 
-                        <button type="submit">Login</button>
-                        <a href="customer_register.php">Register</a>
+                        <button type="submit">Register</button>
                     </form>
                 </div>
             </div>
