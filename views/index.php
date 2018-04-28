@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-xs">
                     <h3>Login</h3>
-                    <form action="index.php">
+                    <form action="index.php" method="post">
                         <div class="form-group">
                             <label for="">Username</label>
                             <input type="text" name="username" placeholder="username anda">
