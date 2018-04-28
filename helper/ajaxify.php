@@ -50,6 +50,9 @@ class Ajaxify {
     public static function boot() {
         header("Content-type: application/json");
         // do CORS here.
+        $pbody = file_get_contents('php://input');
+        if($pbody)
+            $_POST = array_merge($_POST, json_decode($pbody, true));
     }
 
     public static function serve($data = []) {

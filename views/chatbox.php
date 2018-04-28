@@ -134,16 +134,14 @@
 
                 <!-- Chatbox! -->
                 <section class="boxter">
-                    <div class="row middle-xs">
-                        <form action="chatbox.php" method="get" id="chatize">
-                            <div class="col-xs-11">
-                                <textarea name="" id="" cols="30" rows="10" placeholder="Enter your message here"></textarea>
-                            </div>
-                            <div class="col-xs-1">
-                                <button type="submit" class="btn btn-primary">&gt;</a>
-                            </div>
-                        </form>
-                    </div>
+                    <form action="chatbox.php" method="get" id="chatize" class="row middle-xs">
+                        <div class="col-xs-11">
+                            <textarea name="pesan" cols="30" rows="10" placeholder="Enter your message here"></textarea>
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="submit" class="btn btn-primary">&gt;</a>
+                        </div>
+                    </form>
                 </section>
             </div>
         </div>
@@ -193,9 +191,27 @@
                         })
                         chatbox.appendAndScroll(data);
                     })
+                },
+                send_message: function() {
+                    let message = $('textarea[name=\'pesan\']').val();
+                    if(!message)
+                        return;
+                    $('textarea[name=\'pesan\']').attr("disabled", "disabled");
+                    axios.post("chat_ajax.php", {konten:message, kasus:kasus_id}).then((e)=>{
+                        let data = e.data.map((chats)=>{
+                            chatbox.lastTime = Math.max(chatbox.lastTime, chats.created_at);
+                            return chatbox.construct_new(chats.konten, !chats.is_client, chats.created_at);
+                        })
+                        chatbox.appendAndScroll(data);
+                        $('textarea[name=\'pesan\']').val("");
+                        $('textarea[name=\'pesan\']').attr("disabled", null);
+                    })
                 }
             }
-
+            $("form#chatize").submit((e)=>{
+                e.preventDefault();
+                chatbox.send_message();
+            });
             setInterval(chatbox.refetch, 1000);
         });
     </script>

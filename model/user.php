@@ -7,7 +7,7 @@ class User extends Base_Model {
         $statement->bind_param("i", $id);
         $statement->execute();
 
-        return \Helper\DB::fetch_all($statement->get_result());
+        return \Helper\DB::fetch_all($statement->get_result())[0];
     }
 
     public static function fetch_user() {

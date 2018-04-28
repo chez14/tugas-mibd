@@ -18,6 +18,7 @@ class Config {
             Config\DB::$db['password'],
             Config\DB::$db['dbname']
         );
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         if($d->connect_error) {
             die(View::render("internal_error.html", ["err"=>$d->connect_error]));
         }
