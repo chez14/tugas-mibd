@@ -38,7 +38,7 @@
                 <div class="panel profile-user">
                     <div class="row">
                         <div class="col-xs-3 col-xl-2">
-                            <img class="img-circle" src="<?= Helper\Gravatar::get_gravatar($kasus['karyawan_email']) ?>" alt="">
+                            <img class="img-circle" src="<?= Helper\Gravatar::get_gravatar($user['email']) ?>" alt="">
                         </div>
                         <div class="col-xs-9 col-xl-10">
                             <p class="nama"><?=$user['name']?></p>

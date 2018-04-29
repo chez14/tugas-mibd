@@ -4,7 +4,7 @@ require('config/autoload.php');
 $DB = Config::get_db();
 $user = Model\User::fetch_user();
 if($user) {
-    if($user['role'] == 'pemilik')
+    if($user['role'] == 'pemimpin')
         header("Location: admin.php");
     else
         header("Location: kasus.php");

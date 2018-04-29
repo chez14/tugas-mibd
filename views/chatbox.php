@@ -162,7 +162,7 @@
                 <?php if($kasus['closed_at']): ?>
                     <button class="btn btn-dark btn-block" disabled>Tiket sudah ditutup</button>                    
                 <?php else:
-                        if($user['role'] == 'client' || $user['role'] == 'pemilik'):
+                        if($user['role'] == 'client' || $user['role'] == 'pemimpin'):
                     ?>
                         <button class="btn btn-warning btn-block" data-trigger="tutup">Tutup Tiket</button>
                     <?php elseif($user['role'] == 'karyawan'): ?>
@@ -172,7 +172,7 @@
                         <button class="btn btn-primary btn-block" data-trigger="self-assign">Layani Tiket</button>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <?php if($user['role'] == 'pemilik'): ?>
+                    <?php if($user['role'] == 'pemimpin'): ?>
                         <button class="btn btn-primary btn-block" data-trigger="assign">Assign Karyawan</button>
                     <?php endif; ?>
                 <?php endif; ?>                
@@ -187,10 +187,10 @@
                 <section class="boxter">
                     <form action="chatbox.php" method="get" id="chatize" class="row middle-xs">
                         <div class="col-xs-11">
-                            <textarea name="pesan" cols="30" rows="10" placeholder="Enter your message here"<?= ($kasus['closed_at'] || $user['role']=='pemilik')?" disabled":"" ?>></textarea>
+                            <textarea name="pesan" cols="30" rows="10" placeholder="Enter your message here"<?= ($kasus['closed_at'] || $user['role']=='pemimpin')?" disabled":"" ?>></textarea>
                         </div>
                         <div class="col-xs-1">
-                            <button type="submit" class="btn btn-primary" <?= ($kasus['closed_at'] || $user['role']=='pemilik')?" disabled":"" ?>>&gt;</a>
+                            <button type="submit" class="btn btn-primary" <?= ($kasus['closed_at'] || $user['role']=='pemimpin')?" disabled":"" ?>>&gt;</a>
                         </div>
                     </form>
                 </section>
@@ -203,7 +203,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <script>
         var kasus_id = <?= json_encode($_GET['id']?:0); ?>;
-        var balik = <?= json_encode($user['role'] == 'client')?>;
+        var is_now_client = <?= json_encode($user['role'] == 'client')?>;
     </script>
     <script>
         $(document).ready(()=>{
@@ -239,7 +239,7 @@
                     }}).then((e)=>{
                         let data = e.data.map((chats)=>{
                             chatbox.lastTime = Math.max(chatbox.lastTime, chats.created_at);
-                            return chatbox.construct_new(chats.konten, (balik)?!chats.is_client:chats.is_client, chats.created_at);
+                            return chatbox.construct_new(chats.konten, (is_now_client)?!chats.is_client:chats.is_client, chats.created_at);
                         })
                         chatbox.appendAndScroll(data);
                     })
@@ -252,7 +252,7 @@
                     axios.post("chat_ajax.php", {konten:message, kasus:kasus_id}).then((e)=>{
                         let data = e.data.map((chats)=>{
                             chatbox.lastTime = Math.max(chatbox.lastTime, chats.created_at);
-                            return chatbox.construct_new(chats.konten, !chats.is_client, chats.created_at);
+                            return chatbox.construct_new(chats.konten, (is_now_client)?!chats.is_client:chats.is_client, chats.created_at);
                         })
                         chatbox.appendAndScroll(data);
                         $('textarea[name=\'pesan\']').val("");

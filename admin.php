@@ -2,7 +2,7 @@
 require('config/autoload.php');
 
 $user = Model\User::fetch_user();
-if($user['role'] != 'pemilik')
+if($user['role'] != 'pemimpin')
     die(header('Location: index.php'));
 
 $karyawan_total = Config::get_db()
