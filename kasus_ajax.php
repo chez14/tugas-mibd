@@ -18,7 +18,6 @@ try {
         return Helper\Ajaxify::serve(["status"=>"done"]);
     } else if ($_POST['action'] == 'self-assign') {
         \Model\Kasus::assign_kasus($_POST['case'], $user['id']);
-        
         return Helper\Ajaxify::serve(["status"=>"done"]);
                 
     } else if ($_POST['action'] == 'assign') {

@@ -166,7 +166,11 @@
                     ?>
                         <button class="btn btn-warning btn-block" data-trigger="tutup">Tutup Tiket</button>
                     <?php elseif($user['role'] == 'karyawan'): ?>
+                        <?php if($kasus['karyawan_id'] == $user['id']): ?>
+                        <button class="btn btn-primary btn-block" disabled data-trigger="self-assign">Anda sedang melayani tiket ini</button>                        
+                        <?php else: ?>
                         <button class="btn btn-primary btn-block" data-trigger="self-assign">Layani Tiket</button>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <?php if($user['role'] == 'pemilik'): ?>
                         <button class="btn btn-primary btn-block" data-trigger="assign">Assign Karyawan</button>

@@ -26,8 +26,8 @@
             <?php foreach($kasus as $k): ?>
             <div class="col-xs-4">
                 <div class="panel">
-                        <h3><?= $k['title'] ?></h3>
-                        <p><?= date("d m Y", $k['created_at']) ?> - <i class="fas fa-user"></i> <?= $k['assigned'] ?></p>                
+                        <h3><?= $k['nama'] ?></h3>
+                        <p><i class="fas fa-user"></i> <?= $k['karyawan_nama']?:"<i>Belum di assign</i>" ?></p>                
                         <div class="ticket <?=$k['status']=='open'?'ticket-open':'ticket-close'?>">
                             Status: <?= $k['status'] ?>
                         </div>

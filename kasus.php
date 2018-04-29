@@ -8,35 +8,37 @@ if(isset($_GET['new'])) {
     ]);
     exit();
 }
+$user = Model\User::fetch_user();
+if(!$user) {
+    header("Location: index.php");
+    exit();
+}
 
-// ini contoh bebrapa kasusnya, nanti lu sesuaikan aja sama
-// yang ada di databasenya.
+$kasus = [];
+if($user['role'] == 'client') {
+    $kasus = Model\Kasus::get_kasus_by_user($user['id']);
+} else {
+    // custom made. Karna ganti rencana.
 
-$kasus = [
-    [
-        "title" => "Refund #1",
-        "id" => 1,
-        "assigned" => "mark",
-        "client" => "john-doe",
-        "status" => "open",
-        "created_at" => strtotime("24 april 2018 14:44")
-    ],
-    [
-        "title" => "Retur barang",
-        "id" => 2,
-        "client" => "john-doe",
-        "assigned" => "mark",
-        "status" => "close",
-        "created_at" => strtotime("24 april 2018 14:44")
-    ],
-    [
-        "title" => "Claim Garansi",
-        "id" => 2,
-        "client" => "john-doe",
-        "assigned" => "mark",
-        "status" => "close",
-        "created_at" => strtotime("24 april 2018 14:44")
-    ]
-];
+    if($user['role'] == 'pemilik') {
+        //dahulukan yang belum di assign.
+        $statement = Config::get_db()->prepare("SELECT * FROM kasus_lengkap ORDER BY closed_at ASC, id ASC, karyawan_id ASC");
+        $statement->execute();
+        $kasus = Helper\DB::fetch_all($statement->get_result());
+    } else {
+        //dahulukan yang dia diassign
+        $statement = Config::get_db()
+            ->prepare("SELECT ABS(karyawan_id - ?) as koefisien, kasus_lengkap.* " . 
+                "FROM kasus_lengkap ORDER BY (case when koefisien is null then 1 else 0 end), koefisien ASC, closed_at ASC, id ASC");
+        $statement->bind_param("i", $user['id']);
+        $statement->execute();
+        $kasus = Helper\DB::fetch_all($statement->get_result());        
+    }
+}
+
+$kasus = array_map(function($data){
+    $data['status'] = ($data['closed_at']?"closed":"open");
+    return $data;
+}, $kasus);
 
 View::render("kasus.php", ['kasus'=>$kasus]);
