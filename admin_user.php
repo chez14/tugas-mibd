@@ -30,6 +30,6 @@ if(isset($_GET['tipe']) && $_GET['tipe'] == 'karyawan') {
 View::render("admin_user.php", [
     "users"=>$users,
     "user_type" => $user_type,
-    "allow_tambah" => $allow_tambah,
+    "allow_new" => $allow_tambah,
     "laporan" => $laporan
 ]);

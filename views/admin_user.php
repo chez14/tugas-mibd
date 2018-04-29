@@ -24,6 +24,11 @@
             <div class="col-xs">
                 <h2>User Panel: <?= $user_type ?></h2>
             </div>
+            <?php if($allow_new): ?>
+            <div class="col-xs align-right">
+                <a href="admin_user_edit.php">Tambah Karyawan Baru</a>
+            </div>
+            <?php endif;?>
         </div>
         <div class="row">
             <?php if($laporan): ?>
