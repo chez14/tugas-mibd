@@ -10,9 +10,9 @@ class Kasus extends Base_Model {
         return \Helper\DB::fetch_all($statement->get_result())[0];
     }
 
-    public static function get_kasus_by_user($klien_id, $page_start=0, $length=10) {
-        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap where klien_id=? ORDER BY closed_at ASC limit ?, ?");
-        $statement->bind_param("iii", $user_id, $page_start, $length);
+    public static function get_kasus_by_user($klien_id) {
+        $statement = parent::get_db()->prepare("SELECT * from kasus_lengkap where klien_id=? ORDER BY closed_at ASC");
+        $statement->bind_param("i", $klien_id);
         $statement->execute();
         return \Helper\DB::fetch_all($statement->get_result());
     }

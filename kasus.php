@@ -1,5 +1,6 @@
 <?php
 require('config/autoload.php');
+$user = Model\User::fetch_user();
 
 // Cek apakah dia mau bikin kasus baru...
 if(isset($_GET['new']) && ($user['role']=='client')) {
@@ -8,9 +9,15 @@ if(isset($_GET['new']) && ($user['role']=='client')) {
     ]);
     exit();
 }
-$user = Model\User::fetch_user();
 if(!$user) {
     header("Location: index.php");
+    exit();
+}
+
+if(isset($_POST['title']) && ($user['role']=='client')) {
+    $id = Model\Kasus::create_kasus($_POST['title'], $user['id'], 1);
+    Model\Pesan::add_pesan($_POST['problem'], $id, $user['id']);
+    header("Location: chat.php?id=" . $id);
     exit();
 }
 
