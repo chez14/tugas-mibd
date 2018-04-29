@@ -18,9 +18,11 @@
             <div class="col-xs">
                 <h2>Kasus</h2>
             </div>
+            <?php if($allow_new): ?>
             <div class="col-xs align-right">
                 <a href="?new">Buat baru</a>
             </div>
+            <?php endif;?>
         </div>
         <div class="row">
             <?php foreach($kasus as $k): ?>

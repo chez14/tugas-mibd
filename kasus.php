@@ -2,7 +2,7 @@
 require('config/autoload.php');
 
 // Cek apakah dia mau bikin kasus baru...
-if(isset($_GET['new'])) {
+if(isset($_GET['new']) && ($user['role']=='client')) {
     View::render("kasus_baru.php", [
         'title'=>"Buat kasus baru"
     ]);
@@ -39,4 +39,7 @@ $kasus = array_map(function($data){
     return $data;
 }, $kasus);
 
-View::render("kasus.php", ['kasus'=>$kasus]);
+View::render("kasus.php", [
+    'kasus'=>$kasus,
+    'allow_new'=>($user['role']=='client')
+]);
