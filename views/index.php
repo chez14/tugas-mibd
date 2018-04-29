@@ -16,6 +16,11 @@
                 </div>
                 <div class="col-xs">
                     <h3>Login</h3>
+                    <?php if($error): ?>
+                    <div style="padding:15px; background-color:white; color:var(--font-normal);">
+                        <?=$error?>
+                    </div>
+                    <?php endif; ?>
                     <form action="index.php" method="post">
                         <div class="form-group">
                             <label for="">Username</label>

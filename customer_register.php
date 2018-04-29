@@ -15,6 +15,7 @@ if(isset($_POST['username']))
 			md5($_POST['password']),
 			($role='client')
 		);
+		$statement->execute();
 		header("Location: index.php");
 		exit();
 	}
