@@ -2,6 +2,9 @@
 Namespace Model;
 
 class User extends Base_Model {
+    const
+        TIMEOUT = 3600*24*7;
+
     public static function get_user_by_id($id) {
         $statement = parent::get_db()->prepare("SELECT * FROM user WHERE id=?");
         $statement->bind_param("i", $id);
@@ -33,12 +36,12 @@ class User extends Base_Model {
     }
 
     public static function logout() {
-        setcookie('user_id', "", time() + (24*(-7)), "/");
+        setcookie('user_id', "", time() - self::TIMEOUT, "/");
         session_destroy();
     }
 
     public static function save_login($id) {
-        setcookie('user_id', $id, time() + (24*7), "/");
+        setcookie('user_id', $id, time() + self::TIMEOUT, "/");
     }
 
 
