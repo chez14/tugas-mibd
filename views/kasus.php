@@ -36,7 +36,7 @@
                         <p><a href="chat.php?id=<?=$k['id']?>">Lihat kasus lebih detil <i class="fas fa-angle-double-right"></i></a></p>
                 </div>
             </div>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
     </div>
    <?= $this->include('_part/footer.php'); ?>   
