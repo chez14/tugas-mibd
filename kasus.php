@@ -15,7 +15,7 @@ if(!$user) {
 }
 
 if(isset($_POST['title']) && ($user['role']=='client')) {
-    $id = Model\Kasus::create_kasus($_POST['title'], $user['id'], 1);
+    $id = Model\Kasus::create_kasus($_POST['title'], $user['id']);
     Model\Pesan::add_pesan($_POST['problem'], $id, $user['id']);
     header("Location: chat.php?id=" . $id);
     exit();

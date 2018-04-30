@@ -3,6 +3,7 @@ require('config/autoload.php');
 
 $DB = Config::get_db();
 $user = Model\User::fetch_user();
+$error = null;
 if($user) {
     if($user['role'] == 'pemimpin')
         header("Location: admin.php");

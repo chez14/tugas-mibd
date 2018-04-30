@@ -31,13 +31,13 @@ class Kasus extends Base_Model {
         return $statement->insert_id;
     }
 
-    public static function create_kasus($title, $user_id, $category_id) {
+    public static function create_kasus($title, $user_id) {
         $statement = parent::get_db()->prepare("SELECT * FROM klien WHERE id_user=?");
         $statement->bind_param("i", $user_id);
         $statement->execute();
         $res = \Helper\DB::fetch_all($statement->get_result())[0];
-        $statement = parent::get_db()->prepare("INSERT INTO kasus (nama, kategori_id, klien_id) values (?, ?, ?)");
-        $statement->bind_param("sii", $title, $category_id, $res['id']);
+        $statement = parent::get_db()->prepare("INSERT INTO kasus (nama, klien_id) values (?, ?)");
+        $statement->bind_param("si", $title, $res['id']);
         $statement->execute();
         return $statement->insert_id;
     }

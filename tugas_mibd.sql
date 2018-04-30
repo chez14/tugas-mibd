@@ -33,7 +33,6 @@ CREATE TABLE `kasus` (
   `nama` varchar(256) NOT NULL,
   `klien_id` int(11) NOT NULL,
   `karyawan_id` int(11) DEFAULT NULL,
-  `kategori_id` int(11) NOT NULL,
   `closed_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -58,24 +57,6 @@ CREATE TABLE `kasus_lengkap` (
 ,`karyawan_username` varchar(128)
 ,`karyawan_role` varchar(50)
 );
-
--- --------------------------------------------------------
-
---
--- Table structure for table `kategori`
---
-
-CREATE TABLE `kategori` (
-  `id` int(11) NOT NULL,
-  `nama` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `kategori`
---
-
-INSERT INTO `kategori` (`id`, `nama`) VALUES
-(1, 'generic kasus');
 
 -- --------------------------------------------------------
 
@@ -139,7 +120,7 @@ CREATE TABLE `user` (
 --
 DROP TABLE IF EXISTS `kasus_lengkap`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kasus_lengkap`  AS  (select `kasus`.`id` AS `id`,`kasus`.`nama` AS `nama`,`kasus`.`closed_at` AS `closed_at`,`kl`.`id` AS `klien_id`,`kl`.`name` AS `klien_nama`,`kl`.`email` AS `klien_email`,`kl`.`username` AS `klien_username`,`kl`.`role` AS `klien_role`,`ky`.`id` AS `karyawan_id`,`ky`.`name` AS `karyawan_nama`,`ky`.`email` AS `karyawan_email`,`ky`.`username` AS `karyawan_username`,`ky`.`role` AS `karyawan_role` from ((((`kasus` left join `user` `ky` on((`ky`.`id` = `kasus`.`karyawan_id`))) join `klien` on((`klien`.`id_user` = `kasus`.`klien_id`))) join `user` `kl` on((`klien`.`id_user` = `kl`.`id`))) join `kategori` on((`kategori`.`id` = `kasus`.`kategori_id`)))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kasus_lengkap`  AS  (select `kasus`.`id` AS `id`,`kasus`.`nama` AS `nama`,`kasus`.`closed_at` AS `closed_at`,`kl`.`id` AS `klien_id`,`kl`.`name` AS `klien_nama`,`kl`.`email` AS `klien_email`,`kl`.`username` AS `klien_username`,`kl`.`role` AS `klien_role`,`ky`.`id` AS `karyawan_id`,`ky`.`name` AS `karyawan_nama`,`ky`.`email` AS `karyawan_email`,`ky`.`username` AS `karyawan_username`,`ky`.`role` AS `karyawan_role` from ((((`kasus` left join `user` `ky` on((`ky`.`id` = `kasus`.`karyawan_id`))) join `klien` on((`klien`.`id_user` = `kasus`.`klien_id`))) join `user` `kl` on((`klien`.`id_user` = `kl`.`id`))))) ;
 
 -- --------------------------------------------------------
 
@@ -160,14 +141,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 ALTER TABLE `kasus`
   ADD PRIMARY KEY (`id`),
   ADD KEY `klien` (`klien_id`),
-  ADD KEY `karyawan` (`karyawan_id`),
-  ADD KEY `kategori` (`kategori_id`);
-
---
--- Indexes for table `kategori`
---
-ALTER TABLE `kategori`
-  ADD PRIMARY KEY (`id`);
+  ADD KEY `karyawan` (`karyawan_id`);
 
 --
 -- Indexes for table `klien`
@@ -198,31 +172,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `kasus`
 --
 ALTER TABLE `kasus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `kategori`
---
-ALTER TABLE `kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `klien`
 --
 ALTER TABLE `klien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `pesan`
 --
 ALTER TABLE `pesan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Constraints for dumped tables
@@ -233,7 +201,6 @@ ALTER TABLE `user`
 --
 ALTER TABLE `kasus`
   ADD CONSTRAINT `karyawan` FOREIGN KEY (`karyawan_id`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `kategori` FOREIGN KEY (`kategori_id`) REFERENCES `kategori` (`id`),
   ADD CONSTRAINT `klien` FOREIGN KEY (`klien_id`) REFERENCES `klien` (`id`);
 
 --
