@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2018 at 05:21 AM
+-- Generation Time: Apr 30, 2018 at 07:22 PM
 -- Server version: 5.7.22-0ubuntu0.16.04.1
 -- PHP Version: 7.1.16-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -33,7 +33,8 @@ CREATE TABLE `kasus` (
   `nama` varchar(256) NOT NULL,
   `klien_id` int(11) NOT NULL,
   `karyawan_id` int(11) DEFAULT NULL,
-  `closed_at` datetime DEFAULT NULL
+  `closed_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -120,7 +121,7 @@ CREATE TABLE `user` (
 --
 DROP TABLE IF EXISTS `kasus_lengkap`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kasus_lengkap`  AS  (select `kasus`.`id` AS `id`,`kasus`.`nama` AS `nama`,`kasus`.`closed_at` AS `closed_at`,`kl`.`id` AS `klien_id`,`kl`.`name` AS `klien_nama`,`kl`.`email` AS `klien_email`,`kl`.`username` AS `klien_username`,`kl`.`role` AS `klien_role`,`ky`.`id` AS `karyawan_id`,`ky`.`name` AS `karyawan_nama`,`ky`.`email` AS `karyawan_email`,`ky`.`username` AS `karyawan_username`,`ky`.`role` AS `karyawan_role` from ((((`kasus` left join `user` `ky` on((`ky`.`id` = `kasus`.`karyawan_id`))) join `klien` on((`klien`.`id_user` = `kasus`.`klien_id`))) join `user` `kl` on((`klien`.`id_user` = `kl`.`id`))))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `kasus_lengkap`  AS  (select `kasus`.`id` AS `id`,`kasus`.`nama` AS `nama`,`kasus`.`closed_at` AS `closed_at`,`kl`.`id` AS `klien_id`,`kl`.`name` AS `klien_nama`,`kl`.`email` AS `klien_email`,`kl`.`username` AS `klien_username`,`kl`.`role` AS `klien_role`,`ky`.`id` AS `karyawan_id`,`ky`.`name` AS `karyawan_nama`,`ky`.`email` AS `karyawan_email`,`ky`.`username` AS `karyawan_username`,`ky`.`role` AS `karyawan_role` from (((`kasus` left join `user` `ky` on((`ky`.`id` = `kasus`.`karyawan_id`))) join `klien` on((`klien`.`id_user` = `kasus`.`klien_id`))) join `user` `kl` on((`klien`.`id_user` = `kl`.`id`)))) ;
 
 -- --------------------------------------------------------
 
@@ -172,25 +173,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `kasus`
 --
 ALTER TABLE `kasus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `klien`
 --
 ALTER TABLE `klien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pesan`
 --
 ALTER TABLE `pesan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
